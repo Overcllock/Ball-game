@@ -1,41 +1,23 @@
 using UnityEngine;
-using System;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using Newtonsoft.Json;
 
 namespace game 
 {
   public static class Extensions 
   {
+    public static bool IsObjectVisible(this UnityEngine.Camera camera, Renderer renderer)
+    {
+      return GeometryUtility.TestPlanesAABB(GeometryUtility.CalculateFrustumPlanes(camera), renderer.bounds);
+    }
+
     public static GameObject GetChild(this GameObject o, string name)
     {
       Transform t = o.transform.Find(name);
       if(t == null)
         Error.Verify(false, "Child not found {0}", name);
       return t.gameObject;
-    }
-
-    public static T GetChild<T>(this GameObject o, string name) where T : Component
-    {
-      return o.GetChild(name).AsComponent<T>();
-    }
-
-    public static GameObject FindChild(this GameObject o, string name)
-    {
-      Transform t = o.transform.Find(name);
-      if(t)
-        return t.gameObject;
-      return null;
-    }
-
-    public static Transform GetChild(this Transform o, string name)
-    {
-      Transform t = o.transform.Find(name);
-      if(t == null)
-        Error.Verify(false, "Child not found {0}", name);
-      return t;
     }
 
     public static Transform FindRecursive(this Transform current, string name)   
@@ -57,11 +39,6 @@ namespace game
       }
       return null;
     }
-
-    public static GameObject GetParent(this GameObject o)
-    {
-      return o.transform.parent.gameObject;
-    }
     
     public static T AddComponentOnce<T>(this GameObject self) where T : Component
     {
@@ -78,19 +55,37 @@ namespace game
       return res;
     }
 
-    public static bool AddUnique<T>(this List<T> dst, T o)
+    public static List<GameFieldBlock> GetUpperBlocks(this List<GameFieldBlock> list)
     {
-      if(dst.Contains(o))
-        return false;
-      dst.Add(o);
-      return true;
+      return list.FindAll(block => block.direction == EnumBlockDirection.up);
     }
 
-    public static T RandomValue<T>(this List<T> list) where T : class
+    public static List<GameFieldBlock> GetBottomBlocks(this List<GameFieldBlock> list)
     {
-      if(list.Count == 0)
-        return null;
-      return list[UnityEngine.Random.Range(0, list.Count)];
+      return list.FindAll(block => block.direction == EnumBlockDirection.bottom);
     }
   }
+
+  public static class JSON
+	{
+		public static T Read<T>(string path)
+		{
+			T data = default(T);
+			using (StreamReader reader = new StreamReader(new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
+			{
+				data = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+			}
+
+			return data;
+		}
+
+		public static void Write<T>(string path, T obj)
+		{
+			using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Truncate, FileAccess.Write)))
+			{
+				string data = JsonConvert.SerializeObject(obj, Formatting.Indented);
+				writer.Write(data);
+			}
+		}
+	}
 }
