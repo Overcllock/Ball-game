@@ -67,25 +67,25 @@ namespace game
   }
 
   public static class JSON
-	{
-		public static T Read<T>(string path)
-		{
-			T data = default(T);
-			using (StreamReader reader = new StreamReader(new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
-			{
-				data = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
-			}
+  {
+    public static T Read<T>(string path)
+    {
+      T data = default(T);
+      using (StreamReader reader = new StreamReader(new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite)))
+      {
+        data = JsonConvert.DeserializeObject<T>(reader.ReadToEnd());
+      }
 
-			return data;
-		}
+      return data;
+    }
 
-		public static void Write<T>(string path, T obj)
-		{
-			using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Truncate, FileAccess.Write)))
-			{
-				string data = JsonConvert.SerializeObject(obj, Formatting.Indented);
-				writer.Write(data);
-			}
-		}
-	}
+    public static void Write<T>(string path, T obj)
+    {
+      using (StreamWriter writer = new StreamWriter(new FileStream(path, FileMode.Truncate, FileAccess.Write)))
+      {
+        string data = JsonConvert.SerializeObject(obj, Formatting.Indented);
+        writer.Write(data);
+      }
+    }
+  }
 }

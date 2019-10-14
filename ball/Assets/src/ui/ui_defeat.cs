@@ -10,9 +10,6 @@ namespace game
 
     public override void Init()
     {
-      if(initialized)
-        return;
-
       Error.Verify(field != null);
 
       MakeButton("btn_restart", OnGameRestart);
@@ -28,8 +25,6 @@ namespace game
 
       record_label.text = result_info.score == record_info.score ? "New record!" : "Your result:";
       result_text.text = string.Format("Distance: {0:0.00}\nScore: {1}", result_info.distance, result_info.score);
-
-      initialized = true;
     }
 
     public void SetField(GameField field)

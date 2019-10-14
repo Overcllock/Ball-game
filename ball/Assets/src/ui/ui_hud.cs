@@ -13,9 +13,6 @@ namespace game
 
     public override void Init()
     {
-      if(initialized)
-        return;
-
       MakeButton("btn_pause", OnTogglePaused);
       MakeButton("btn_play", OnTogglePaused, set_active: false);
       
@@ -23,8 +20,6 @@ namespace game
       Error.Verify(distance_text != null);
       score_text = GetUIComponent<Text>("score_label");
       Error.Verify(score_text != null);
-
-      initialized = true;
     }
 
     public void SetField(GameField field)

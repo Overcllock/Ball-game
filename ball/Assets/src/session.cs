@@ -165,8 +165,10 @@ namespace game
       mctl = obj.AddComponentOnce<MovementController>();
     }
 
-    public void OnReuse()
+    public void OnReuse(GameField field)
     {
+      this.field = field;
+      
       obj = Assets.TryReuse("field_items/ball", field.transform);
       Error.Verify(obj != null);
 
@@ -257,7 +259,7 @@ namespace game
     {
       result.Clear();
       InitBlocks();
-      ball.OnReuse();
+      ball.OnReuse(this);
       is_game_over = false;
     }
 
