@@ -21,40 +21,40 @@ namespace game
     public void Save()
     {
       try
-			{
-				if(!Directory.Exists(Application.streamingAssetsPath + "/userdata"))
-					Directory.CreateDirectory(Application.streamingAssetsPath + "/userdata");
+      {
+        if(!Directory.Exists(Application.streamingAssetsPath + "/userdata"))
+          Directory.CreateDirectory(Application.streamingAssetsPath + "/userdata");
 
-				JSON.Write(Application.streamingAssetsPath + SAVEFILE_PATH, this);
-				Debug.Log("Data saved successfully.");
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError("Data not saved. " + ex.Message);
-			}
+        JSON.Write(Application.streamingAssetsPath + SAVEFILE_PATH, this);
+        Debug.Log("Data saved successfully.");
+      }
+      catch (Exception ex)
+      {
+        Debug.LogError("Data not saved. " + ex.Message);
+      }
     }
 
     public static GameResult Load()
     {
       try
-			{
-				if(!Directory.Exists(Application.streamingAssetsPath + "/userdata"))
-					Directory.CreateDirectory(Application.streamingAssetsPath + "/userdata");
+      {
+        if(!Directory.Exists(Application.streamingAssetsPath + "/userdata"))
+          Directory.CreateDirectory(Application.streamingAssetsPath + "/userdata");
 
-				var account = JSON.Read<GameResult>(Application.streamingAssetsPath + SAVEFILE_PATH);
-				if(account != null)
-				{
-					Debug.Log("Data loaded successfully.");
-					return account;
-				}
+        var account = JSON.Read<GameResult>(Application.streamingAssetsPath + SAVEFILE_PATH);
+        if(account != null)
+        {
+          Debug.Log("Data loaded successfully.");
+          return account;
+        }
 
-				throw new Exception("User data is null or empty.");
-			}
-			catch (Exception ex)
-			{
-				Debug.LogError("Data not loaded. " + ex.Message);
-				return new GameResult();
-			}
+        throw new Exception("User data is null or empty.");
+      }
+      catch (Exception ex)
+      {
+        Debug.LogError("Data not loaded. " + ex.Message);
+        return new GameResult();
+      }
     }
   }
 
@@ -310,7 +310,7 @@ namespace game
       if(!ball.is_valid || ball.is_falling)
         return;
 
-#if !UNITY_EDITOR
+#if UNITY_ANDROID || UNITY_IOS
       foreach(var touch in Input.touches) 
       {
         if(touch.phase == TouchPhase.Began) 
