@@ -175,7 +175,7 @@ namespace game
       obj.transform.position = GetSpawnPos();
 
       mctl.OnReuse();
-      mctl.ForceCameraAtObject();
+      mctl.ForceCameraAtPos(field.bottom_left_border);
     }
 
     Vector2 GetSpawnPos()
@@ -223,6 +223,7 @@ namespace game
 
     GameObject obj;
     GameFieldBall ball;
+
     public bool is_game_over;
     public GameResult result;
     public float dist_delta

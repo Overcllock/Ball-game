@@ -6,7 +6,7 @@ namespace game
   {
     public const float base_speed = 100.0f;
     const float default_gravity_scale = 30.0f;
-    const float camera_offset = 8.0f;
+    const float camera_offset = 5.0f;
 
     Camera cam;
     Rigidbody2D _rigidbody;
@@ -67,10 +67,10 @@ namespace game
       cam.transform.position = new_pos;
     }
 
-    public void ForceCameraAtObject()
+    public void ForceCameraAtPos(Vector3 pos)
     {
       var old_pos = cam.transform.position;
-      var target_pos = new Vector3(transform.position.x + camera_offset, old_pos.y, old_pos.z);
+      var target_pos = new Vector3(pos.x + camera_offset, old_pos.y, old_pos.z);
 
       cam.transform.position = target_pos;
     }
